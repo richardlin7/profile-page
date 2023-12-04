@@ -1,5 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:profile/name.dart';
+import 'package:profile/phone.dart';
+import 'package:profile/email.dart';
+import 'package:profile/info.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,22 +10,33 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Profile Page',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const ProfileScreen(),
+      home: ProfileScreen(
+        pState: ProfileState(
+            fName: "Richard",
+            lName: "Lin",
+            phone: "770-818-8101",
+            email: "newtoflutter@gmail.com",
+            info: "I am a software developer who is trying out Flutter."),
+      ),
     );
   }
 }
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  final ProfileState pState;
+  final String email = 'newtoflutter@gmail.com';
+  final String info = 'I am a software developer who is trying out Flutter.';
+
+  const ProfileScreen({required this.pState});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +46,7 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 40),
-            Text(
+            const Text(
               'Edit Profile',
               style: TextStyle(
                   color: Colors.blue,
@@ -40,89 +54,108 @@ class ProfileScreen extends StatelessWidget {
                   fontSize: 25,
                   fontWeight: FontWeight.bold),
             ),
-            Stack(
-              children: [
-                CircleAvatar(
-                  radius: 75,
-                  backgroundColor: Colors.blue,
-                  child: CircleAvatar(
-                    radius: 70,
-                    backgroundImage: AssetImage('assets/images/photo.jpg'),
-                  ),
+            TextButton(
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  foregroundColor: Colors.white,
                 ),
-                Positioned(
-                  top: 1,
-                  right: 1,
-                  child: Container(
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Icon(Icons.create_sharp, color: Colors.blue),
+                onPressed: () {},
+                child: Stack(
+                  children: [
+                    const CircleAvatar(
+                      radius: 75,
+                      backgroundColor: Colors.blue,
+                      child: CircleAvatar(
+                        radius: 70,
+                        backgroundImage: AssetImage('assets/images/photo.jpg'),
+                      ),
                     ),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 3,
-                          color: Colors.white,
+                    Positioned(
+                      top: 1,
+                      right: 1,
+                      child: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: const Icon(Icons.create_sharp,
+                              color: Colors.blue),
                         ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(
-                            50,
-                          ),
-                        ),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            offset: Offset(2, 4),
-                            color: Colors.black.withOpacity(
-                              0.3,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 3,
+                              color: Colors.white,
                             ),
-                            blurRadius: 3,
-                          ),
-                        ]),
-                  ),
-                ),
-              ],
-            ),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(
+                                50,
+                              ),
+                            ),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                offset: const Offset(2, 4),
+                                color: Colors.black.withOpacity(
+                                  0.3,
+                                ),
+                                blurRadius: 3,
+                              ),
+                            ]),
+                      ),
+                    ),
+                  ],
+                )),
             const SizedBox(height: 10),
             TextButton(
                 onPressed: () {
-                  print('button pressed!');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NamePage(pState)));
                 },
                 child: ListTile(
-                    title: Text('Name'),
-                    subtitle: Text('Richard Lin'),
+                    title: const Text('Name'),
+                    subtitle: Text('${pState.fName}' ' ' '${pState.lName}'),
                     trailing:
                         Icon(Icons.arrow_forward, color: Colors.grey.shade400),
                     tileColor: Colors.white)),
             const SizedBox(height: 10),
             TextButton(
                 onPressed: () {
-                  print('button pressed!');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PhonePage(pState)));
                 },
                 child: ListTile(
-                    title: Text('Phone'),
-                    subtitle: Text('770-818-8101'),
+                    title: const Text('Phone'),
+                    subtitle: Text('${pState.phone}'),
                     trailing:
                         Icon(Icons.arrow_forward, color: Colors.grey.shade400),
                     tileColor: Colors.white)),
             const SizedBox(height: 10),
             TextButton(
                 onPressed: () {
-                  print('button pressed!');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EmailPage(pState)));
                 },
                 child: ListTile(
-                    title: Text('Email'),
-                    subtitle: Text('newtoflutter@gmail.com'),
+                    title: const Text('Email'),
+                    subtitle: Text('${pState.email}'),
                     trailing:
                         Icon(Icons.arrow_forward, color: Colors.grey.shade400),
                     tileColor: Colors.white)),
             const SizedBox(height: 10),
             TextButton(
                 onPressed: () {
-                  print('button pressed!');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => InfoPage(pState)));
                 },
                 child: ListTile(
-                    title: Text('Tell us about yourself'),
-                    subtitle: Text('I am new to flutter.'),
+                    title: const Text('Tell us about yourself'),
+                    subtitle: Text('${pState.info}'),
                     trailing:
                         Icon(Icons.arrow_forward, color: Colors.grey.shade400),
                     tileColor: Colors.white)),
@@ -131,27 +164,6 @@ class ProfileScreen extends StatelessWidget {
             )
           ],
         ),
-      ),
-    );
-  }
-
-  itemProfile(String title, String subtitle) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-                offset: Offset(0, 5),
-                color: Colors.grey.withOpacity(.2),
-                spreadRadius: 2,
-                blurRadius: 10)
-          ]),
-      child: ListTile(
-        title: Text(title),
-        subtitle: Text(subtitle),
-        trailing: Icon(Icons.arrow_forward, color: Colors.grey.shade400),
-        tileColor: Colors.white,
       ),
     );
   }
